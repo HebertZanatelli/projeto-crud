@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <%- include('partials/head.ejs') %>
+</head>
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+
+    <form action="/register/add" method="POST">
+        <div>
+            <label>Nome</label>
+            <input type="text" name="name" placeholder="Digite o seu nome">
+        </div>
+        <div>
+            <label>Idade</label>
+            <input type="text" name="age" placeholder="Digite o sua Idade">
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" name="email" placeholder="Digite o seu Email">
+        </div>
+        <div>
+            <label>Senha</label>
+            <input type="text" name="password" placeholder="Digite o seu Senha">
+        </div>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <%- include('partials/foot.ejs') %>
+    
+</body>
+</html>
