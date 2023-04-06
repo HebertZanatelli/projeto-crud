@@ -1,15 +1,15 @@
 const CustomerModel = require('../models/customers')
-const {crypto} = require('../utils/password')
+const { crypto } = require('../utils/password')
 
 const defaultTitle = 'Formulário de Cadastro de Clientes'
 
-function index(req, res){
+function index(req, res) {
     res.render('register', {
         title: defaultTitle
     });
 }
 
-async function list(req, res){
+async function list(req, res) {
     const users = await CustomerModel.find()
 
     res.render('list', {
@@ -27,14 +27,14 @@ async function add(req, res) {
     } = req.body
 
     const passwordCrypto = await crypto(password)
-    
+
     const register = new CustomerModel({
         name,
         age,
         email,
         password: passwordCrypto
     })
-    
+
     register.save()
     res.render('register', {
         title: defaultTitle,
@@ -43,10 +43,10 @@ async function add(req, res) {
 }
 
 async function formEdit(req, res) {
-    const {id} = req.query
+    const { id } = req.query
 
     const user = await CustomerModel.findById(id)
-    
+
     res.render('edit', {
         title: 'Editar Usuário:',
         user,
@@ -60,21 +60,30 @@ async function edit(req, res) {
         email,
     } = req.body
 
- const {id} = req.params
- const user = await CustomerModel.findById(id)
+    const { id } = req.params
+    const user = await CustomerModel.findById(id)
 
- user.name = name
- user.age = age
- user.email = email
+    user.name = name
+    user.age = age
+    user.email = email
 
- user.save()
+    user.save()
 
- res.render('edit', {
-    title: 'Editar Usuário:',
-    user,
-    message: 'Usuário alterado com sucesso!'
-})
+    res.render('edit', {
+        title: 'Editar Usuário:',
+        user,
+        message: 'Usuário alterado com sucesso!'
+    })
 
+
+}
+async function remove(req, res) {
+    const { id } = req.params
+    const remove = await CustomerModel.deleteOne({ _id: id })
+
+    if (remove.ok) {
+        res.redirect('/list')
+    }
 }
 
 module.exports = {
@@ -83,4 +92,5 @@ module.exports = {
     list,
     formEdit,
     edit,
+    remove,
 }
